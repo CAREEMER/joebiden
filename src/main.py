@@ -8,10 +8,11 @@ from router import Router
 from utils import get_arts
 
 token = os.getenv("TOKEN")
+prefix = os.getenv("PREFIX")
 
 
 client = discord.Client()
-router = Router("!")
+router = Router(prefix)
 
 
 @client.event

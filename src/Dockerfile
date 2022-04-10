@@ -18,6 +18,8 @@ RUN poetry install --no-dev --no-interaction --no-ansi
 
 ARG TOKEN
 ENV TOKEN="${TOKEN}"
+ARG PREFIX
+ENV PREFIX="${PREFIX}"
 
 COPY . .
 

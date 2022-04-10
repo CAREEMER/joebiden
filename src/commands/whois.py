@@ -7,8 +7,8 @@ from .abc import BaseCommand
 
 
 class Whois(BaseCommand):
-    command = "whois"
     rights = "any"
+    abstract = False
 
     async def process(self, message: discord.Message):
         prop = " ".join(self.get_args(message))

@@ -5,9 +5,12 @@ from loguru import logger
 
 
 class BaseCommand:
-    command = ""
+    abstract = True
     mention_regex = re.compile(r"\<\@([0-9]+)\>")
     rights = "any"
+
+    def __init__(self):
+        self.command = self.__class__.__name__.lower()
 
     def can_perform(self, author_id):
         if self.rights == "admin":

@@ -1,23 +1,27 @@
 import discord
 
 from commands import BaseCommand
+from loguru import logger
 
 
 class Router:
     def __init__(self, prefix: str):
         self.prefix = prefix
 
-    async def dispatch(self, message: discord.Message):
         commands = BaseCommand.__subclasses__()
 
-        command_map = {}
+        self.command_map = {}
         for command in commands:
-            command_map[command.command] = command
+            if not getattr(command, "abstract", False):
+                self.command_map[command.__name__.lower()] = command
 
-        cmd_prefix = self.prefix
+        logger.info(f"INITIALIZED ROUTER. COMMANDS: {[command for command in self.command_map]}")
+
+    async def dispatch(self, message: discord.Message):
         cmd = message.content.split(" ")[0]
-        if cmd.startswith(cmd_prefix):
-            cmd = cmd.replace(cmd_prefix, "")
-            cmd_cls = command_map.get(cmd)
+
+        if cmd.startswith(self.prefix):
+            cmd = cmd.replace(self.prefix, "")
+            cmd_cls = self.command_map.get(cmd)
             if cmd_cls:
                 await cmd_cls().run(message)

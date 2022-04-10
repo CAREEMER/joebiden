@@ -1,5 +1,6 @@
-import discord
 import random
+
+import discord
 from loguru import logger
 
 from .abc import BaseCommand

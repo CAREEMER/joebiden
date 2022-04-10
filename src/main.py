@@ -22,7 +22,7 @@ async def on_ready():
 class MessageHandlers:
     @staticmethod
     async def soyjack_reply(message):
-        if random.randint(0, 10) == 1:
+        if random.randint(0, 20) == 1:
             logger.info("%s ROLLED SOYJACK!" % message.author.name)
             await message.channel.send(f">{message.content}\n{random.choice(get_arts())}")
 

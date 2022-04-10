@@ -1,10 +1,11 @@
 import re
 
 import discord
+from loguru import logger
 
 
 class BaseCommand:
-    command = "help"
+    command = ""
     mention_regex = re.compile(r"\<\@([0-9]+)\>")
     rights = "any"
 
@@ -14,6 +15,8 @@ class BaseCommand:
         return True
 
     async def run(self, message: discord.Message):
+        logger.info("%s USES COMMAND %s" % message.author.display_name, self.command)
+
         if not self.can_perform(message.author.id):
             await message.reply("You do not have sufficient rights.")
             return

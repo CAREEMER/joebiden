@@ -26,7 +26,5 @@ jobs:
         env:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
-          docker \
-            --build-arg TOKEN=$TOKEN
-            build ./src/ -f /src/Dockerfile -t m2n2/joebiden:latest
+          docker build ./src --build-arg TOKEN=$TOKEN -f /src/Dockerfile -t m2n2/joebiden:latest
           docker push m2n2/joebiden:latest

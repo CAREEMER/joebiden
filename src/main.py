@@ -7,8 +7,8 @@ from loguru import logger
 from router import Router
 from utils import get_arts, get_pics
 
-token = os.getenv("TOKEN")
-prefix = os.getenv("PREFIX")
+token = "Nzc3MjU1NDEzMjIwNzY5ODU0.X7Axgw.8zDbWKV3Qa_SqMozmaJ7ztH4xxA"
+prefix = "!"
 
 
 client = discord.Client()
@@ -23,7 +23,7 @@ async def on_ready():
 class MessageHandlers:
     @staticmethod
     async def soyjack_reply(message):
-        lucky_number = random.randint(0, 3)
+        lucky_number = random.randint(0, 40)
         if lucky_number == 1:
             logger.info(f"{message.author.name} ROLLED SOYJACK!")
             await message.channel.send(f">{message.content}\n{random.choice(get_arts())}")

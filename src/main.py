@@ -7,8 +7,8 @@ from loguru import logger
 from router import Router
 from utils import get_arts, get_pics
 
-token = "Nzc3MjU1NDEzMjIwNzY5ODU0.X7Axgw.8zDbWKV3Qa_SqMozmaJ7ztH4xxA"
-prefix = "!"
+token = os.getenv("TOKEN")
+prefix = os.getenv("PREFIX")
 
 
 client = discord.Client()

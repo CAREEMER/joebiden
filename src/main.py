@@ -1,8 +1,8 @@
 import os
 import random
-from loguru import logger
 
 import discord
+from loguru import logger
 
 from router import Router
 from utils import get_arts
@@ -16,13 +16,14 @@ router = Router("!")
 
 @client.event
 async def on_ready():
-    logger.info(f"INITIALIZED BOT %s" % client.user.name)
+    logger.info("INITIALIZED BOT %s" % client.user.name)
 
 
 class MessageHandlers:
     @staticmethod
     async def soyjack_reply(message):
         if random.randint(0, 10) == 1:
+            logger.info("%s ROLLED SOYJACK!" % message.author.name)
             await message.channel.send(f">{message.content} {random.choice(get_arts())}")
 
 

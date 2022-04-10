@@ -1,5 +1,6 @@
-from commands import BaseCommand
 import discord
+
+from commands import BaseCommand
 
 
 class Router:

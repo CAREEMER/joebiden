@@ -6,6 +6,7 @@ import discord
 from commands import BaseCommand
 
 token = os.getenv("TOKEN")
+print(token)
 
 
 client = discord.Client()

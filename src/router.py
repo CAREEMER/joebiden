@@ -18,7 +18,6 @@ class Router:
         cmd = message.content.split(" ")[0]
         if cmd.startswith(cmd_prefix):
             cmd = cmd.replace(cmd_prefix, "")
-            print(cmd)
             cmd_cls = command_map.get(cmd)
             if cmd_cls:
                 await cmd_cls().run(message)

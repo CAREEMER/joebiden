@@ -15,12 +15,11 @@ class BaseCommand:
         return True
 
     async def run(self, message: discord.Message):
-        logger.info("%s USES COMMAND %s" % message.author.display_name, self.command)
-
         if not self.can_perform(message.author.id):
             await message.reply("You do not have sufficient rights.")
             return
 
+        logger.info(f"{message.author.display_name} USES COMMAND {self.command}")
         await self.process(message)
 
     def get_args(self, message: discord.Message):

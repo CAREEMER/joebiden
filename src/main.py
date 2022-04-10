@@ -16,14 +16,14 @@ router = Router("!")
 
 @client.event
 async def on_ready():
-    logger.info("INITIALIZED BOT %s" % client.user.name)
+    logger.info(f"INITIALIZED BOT {client.user.name}")
 
 
 class MessageHandlers:
     @staticmethod
     async def soyjack_reply(message):
         if random.randint(0, 20) == 1:
-            logger.info("%s ROLLED SOYJACK!" % message.author.name)
+            logger.info(f"{message.author.name} ROLLED SOYJACK!")
             await message.channel.send(f">{message.content}\n{random.choice(get_arts())}")
 
 

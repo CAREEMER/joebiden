@@ -1,6 +1,6 @@
 from .abc import BaseCommand
-from .add_soyjack import AddSoyjack
 from .ping import Ping
-from .soyjack_list import SoyjackList
+from .pedo import PedoCommand
 
-__all__ = ["BaseCommand", "AddSoyjack", "Ping", "SoyjackList"]
+
+__all__ = ["BaseCommand", "Ping", "PedoCommand"]

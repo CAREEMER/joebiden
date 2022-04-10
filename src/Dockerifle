@@ -16,6 +16,9 @@ RUN poetry config virtualenvs.create false
 
 RUN poetry install --no-dev --no-interaction --no-ansi
 
+ARG TOKEN
+ENV TOKEN="${TOKEN}"
+
 COPY . .
 
 CMD ["main.py"]

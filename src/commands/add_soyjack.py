@@ -1,6 +1,6 @@
 import discord
 
-from .abc import BaseCommand, soyjacks
+from .abc import BaseCommand
 
 
 class AddSoyjack(BaseCommand):
@@ -13,5 +13,4 @@ class AddSoyjack(BaseCommand):
             mention = self.get_mention(arg)
             if mention:
                 mention = int(mention[0])
-                soyjacks.append(mention)
                 await message.reply(f"Added <@{mention}> to the list of soyjacks!")

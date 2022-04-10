@@ -2,15 +2,18 @@ import re
 
 import discord
 from loguru import logger
+import time
 
 
 class BaseCommand:
+    timeout = 10
     abstract = True
     mention_regex = re.compile(r"\<\@([0-9]+)\>")
     rights = "any"
 
     def __init__(self):
         self.command = self.__class__.__name__.lower()
+        self.last_calls = {}
 
     def can_perform(self, author_id):
         if self.rights == "admin":
@@ -18,12 +21,18 @@ class BaseCommand:
         return True
 
     async def run(self, message: discord.Message):
+        if not self.is_available(message.guild.id):
+            logger.info(f"{message.author.name} TIMED OUT AT {self.command} COMMAND")
+            return
+
         if not self.can_perform(message.author.id):
             await message.reply("You do not have sufficient rights.")
             return
 
         logger.info(f"{message.author.display_name} USES COMMAND {self.command}")
         await self.process(message)
+
+        self.last_calls[message.guild.id] = time.time()
 
     def get_args(self, message: discord.Message) -> list[str]:
         """
@@ -37,3 +46,7 @@ class BaseCommand:
 
     async def process(self, message: discord.Message):
         pass
+
+    def is_available(self, guild_id: int):
+        last_call = self.last_calls.get(guild_id)
+        return not last_call or time.time() - last_call >= self.timeout

@@ -12,3 +12,16 @@ def get_arts() -> list[str]:
             arts.append(file.read())
 
     return arts
+
+
+def get_pics() -> list[str]:
+    arts_directory = os.path.join(os.getcwd(), "arts")
+    arts = []
+
+    for file_name in os.listdir(arts_directory):
+        if file_name.endswith(".txt"):
+            continue
+        arts.append(os.path.join("arts", file_name))
+
+    print(arts)
+    return arts

@@ -5,7 +5,7 @@ import discord
 from loguru import logger
 
 from router import Router
-from utils import get_arts
+from utils import get_arts, get_pics
 
 token = os.getenv("TOKEN")
 prefix = os.getenv("PREFIX")
@@ -23,9 +23,13 @@ async def on_ready():
 class MessageHandlers:
     @staticmethod
     async def soyjack_reply(message):
-        if random.randint(0, 20) == 1:
+        lucky_number = random.randint(0, 3)
+        if lucky_number == 1:
             logger.info(f"{message.author.name} ROLLED SOYJACK!")
             await message.channel.send(f">{message.content}\n{random.choice(get_arts())}")
+        if lucky_number == 2:
+            logger.info(f"{message.author.name} ROLLED PIC!")
+            await message.channel.send(f">{message.content}", file=discord.File(random.choice(get_pics())))
 
 
 @client.event

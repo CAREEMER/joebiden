@@ -21,19 +21,12 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_LOGIN }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: m2n2/joebiden
-          tags: |
-              type=raw,value=latest
       - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./src/
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          secrets: |
-            "TOKEN=${{ secrets.TOKEN }}"
+        id: build-image
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          docker \
+            --build-arg TOKEN=$TOKEN
+            build ./src/ -f /src/Dockerfile -t m2n2/joebiden:latest
+          docker push m2n2/joebiden:latest

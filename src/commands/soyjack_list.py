@@ -1,4 +1,4 @@
-from .abc import BaseCommand, soyjacks
+from .abc import BaseCommand
 
 
 class SoyjackList(BaseCommand):
@@ -6,4 +6,5 @@ class SoyjackList(BaseCommand):
     rights = "admin"
 
     async def process(self, message):
-        await message.reply("List of soyjacks: " + ", ".join([str(s) for s in soyjacks]))
+        await message.reply("kekw")
+        # await message.reply("List of soyjacks: " + ", ".join([str(s) for s in soyjacks]))

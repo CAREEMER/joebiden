@@ -24,7 +24,7 @@ class MessageHandlers:
     async def soyjack_reply(message):
         if random.randint(0, 10) == 1:
             logger.info("%s ROLLED SOYJACK!" % message.author.name)
-            await message.channel.send(f">{message.content} {random.choice(get_arts())}")
+            await message.channel.send(f">{message.content}\n{random.choice(get_arts())}")
 
 
 @client.event

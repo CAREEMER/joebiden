@@ -19,6 +19,8 @@ def get_arts() -> list[str]:
         with open(os.path.join(arts_directory, file_name)) as file:
             arts.append(file.read())
 
+    return arts
+
 
 @client.event
 async def on_ready():

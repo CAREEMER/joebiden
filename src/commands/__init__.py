@@ -1,6 +1,6 @@
 from .abc import BaseCommand
 from .ping import Ping
-from .pedo import PedoCommand
+from .whois import Whois
 
 
-__all__ = ["BaseCommand", "Ping", "PedoCommand"]
+__all__ = ["BaseCommand", "Ping", "Whois"]

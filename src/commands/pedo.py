@@ -8,6 +8,7 @@ from .abc import BaseCommand
 
 class Pedo(BaseCommand):
     timeout = 60
+    abstract = False
 
     async def get_redis_date(self) -> bytes:
         today = str(date.today())

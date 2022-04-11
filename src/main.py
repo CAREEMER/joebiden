@@ -46,6 +46,9 @@ class MessageHandlers:
 def escape_content(content: str, author_mention: str) -> tuple[bool, str]:
     escaped = False
     reply = ""
+    if not content.startswith(prefix):
+        return escaped, reply
+
     blocked_tags = ["everyone", "here"]
 
     for tag in blocked_tags:
@@ -68,7 +71,7 @@ async def on_message(message: discord.Message):
 
     await redis.cache_member(message)
 
-    escaped, warn = escape_content(message.content)
+    escaped, warn = escape_content(message.content, message.author.mention)
     if escaped:
         await message.reply(warn)
         return

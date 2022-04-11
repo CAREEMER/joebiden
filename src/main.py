@@ -12,8 +12,10 @@ token = os.getenv("TOKEN")
 prefix = os.getenv("PREFIX", "!")
 redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
 
+intents = discord.Intents.default()
+intents.members = True
 
-client = discord.Client()
+client = discord.Client(intents=intents)
 router: Router = None
 
 redis: RedisClient = None

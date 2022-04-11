@@ -12,7 +12,6 @@ class Whois(BaseCommand):
     async def process(self, message: discord.Message):
         prop = " ".join(self.get_args(message))
 
-        # random_user = random.choice(await self.redis.get_cached_users(message.guild.id))
         guild_members = []
         async for member in message.guild.fetch_members():
             guild_members.append(member)

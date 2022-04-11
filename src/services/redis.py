@@ -12,20 +12,13 @@ class KeySchema:
 
 
 class RedisClient:
-    def __init__(self, bot_name: str):
-        self.redis_url = "redis://0.0.0.0:6379"
+    def __init__(self, bot_name: str, url: str):
+        self.redis_url = url
         self.key_schema = KeySchema(bot_name)
         self.redis_conn = aioredis.from_url(self.redis_url)
 
     async def ping_redis(self):
         await self.redis_conn.set("PING", "PONG")
-        data = await self.redis_conn.get("PING")
-
-        if data.decode("UTF-8") == "PONG":
-            logger.info("INITIALIZED REDIS CLIENT ON HOST %s" % self.redis_url)
-        else:
-            raise Exception("Can't connect to redis using url %s" % self.redis_url)
-
         await self.redis_conn.delete("PING")
 
     async def cache_member(self, message: discord.Message):

@@ -9,7 +9,8 @@ from utils import get_arts, get_pics
 from services.redis import RedisClient
 
 token = os.getenv("TOKEN")
-prefix = os.getenv("PREFIX")
+prefix = os.getenv("PREFIX", "!")
+redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
 
 
 client = discord.Client()
@@ -24,7 +25,7 @@ async def on_ready():
 
     logger.info(f"INITIALIZED BOT {client.user.name}")
 
-    redis = RedisClient(bot_name=client.user.name)
+    redis = RedisClient(bot_name=client.user.name, url=redis_url)
     await redis.ping_redis()
 
     router = Router(prefix, redis)

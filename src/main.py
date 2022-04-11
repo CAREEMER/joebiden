@@ -55,7 +55,7 @@ async def on_message(message: discord.Message):
         mention_tag = f"@{tag}"
         if mention_tag in message.content:
             message.content = message.content.replace(
-                mention_tag, f"<НЕ-ИСПОЛЬЗУЙ-{tag}-ПИДОР {message.author.mention}>"
+                mention_tag, f"<НЕ ИСПОЛЬЗУЙ {tag.upper()} ПИДОР {message.author.mention}>"
             )
 
     await redis.cache_member(message)

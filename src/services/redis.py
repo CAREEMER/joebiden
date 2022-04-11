@@ -13,7 +13,7 @@ class KeySchema:
 
 class RedisClient:
     def __init__(self, bot_name: str):
-        self.redis_url = "redis://localhost:6379"
+        self.redis_url = "redis://0.0.0.0:6379"
         self.key_schema = KeySchema(bot_name)
         self.redis_conn = aioredis.from_url(self.redis_url)
 

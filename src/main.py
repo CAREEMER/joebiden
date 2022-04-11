@@ -43,6 +43,22 @@ class MessageHandlers:
             await message.channel.send(f">{message.content}", file=discord.File(random.choice(get_pics())))
 
 
+def escape_content(content: str, author_mention: str) -> tuple[bool, str]:
+    escaped = False
+    reply = ""
+    blocked_tags = ["everyone", "here"]
+
+    for tag in blocked_tags:
+        mention_tag = f"@{tag}"
+        if mention_tag in content:
+            reply = content.replace(
+                mention_tag, f"НЕ ИСПОЛЬЗУЙ {tag.upper()}, ПИДОР {author_mention}"
+            )
+            escaped = True
+
+    return escaped, reply
+
+
 @client.event
 async def on_message(message: discord.Message):
     global redis
@@ -50,15 +66,12 @@ async def on_message(message: discord.Message):
     if message.author.bot:
         return
 
-    blocked_tags = ["everyone", "here"]
-    for tag in blocked_tags:
-        mention_tag = f"@{tag}"
-        if mention_tag in message.content:
-            message.content = message.content.replace(
-                mention_tag, f"<НЕ ИСПОЛЬЗУЙ {tag.upper()} ПИДОР {message.author.mention}>"
-            )
-
     await redis.cache_member(message)
+
+    escaped, warn = escape_content(message.content)
+    if escaped:
+        await message.reply(warn)
+        return
 
     await MessageHandlers.soyjack_reply(message)
     await router.dispatch(message)

@@ -26,7 +26,7 @@ class BaseCommand:
         return True
 
     async def run(self, message: discord.Message):
-        if not self.is_available(message.guild.id) or message.author.id == self.admin_id:
+        if not (self.is_available(message.guild.id) or message.author.id == self.admin_id):
             logger.info(f"{message.author.name} TIMED OUT AT {self.command} COMMAND")
             return
 

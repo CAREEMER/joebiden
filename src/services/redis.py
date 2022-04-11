@@ -1,5 +1,6 @@
 import aioredis
 import discord
+from datetime import date
 
 
 class KeySchema:
@@ -8,6 +9,9 @@ class KeySchema:
 
     def cached_users(self, guild_id: int):
         return f"{self.global_prefix}:CACHED_USERS:{guild_id}"
+
+    def pedo(self, guild_id: int):
+        return f"{self.global_prefix}:PEDO:{guild_id}:{date.today()}"
 
 
 class RedisClient:
@@ -45,3 +49,13 @@ class RedisClient:
             return []
 
         return data.decode("UTF-8").split(delimeter)
+
+    async def get_pedo_of_the_day(self, guild_id: int):
+        key = self.key_schema.pedo(guild_id)
+        data = await self.redis_conn.get(key) or b""
+
+        return data.decode("UTF-8")
+
+    async def set_pedo_of_the_day(self, guild_id: int, member_id: int):
+        key = self.key_schema.pedo(guild_id)
+        await self.redis_conn.set(key, str(member_id))

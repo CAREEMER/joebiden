@@ -24,5 +24,4 @@ def get_pics() -> List[str]:
             continue
         arts.append(os.path.join("arts", file_name))
 
-    print(arts)
     return arts

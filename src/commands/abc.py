@@ -1,9 +1,9 @@
 import re
+import time
+from typing import List
 
 import discord
 from loguru import logger
-import time
-from typing import List
 
 from services.redis import RedisClient
 

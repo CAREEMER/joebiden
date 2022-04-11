@@ -1,5 +1,4 @@
 import aioredis
-from loguru import logger
 import discord
 
 

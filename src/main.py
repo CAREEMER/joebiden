@@ -5,8 +5,8 @@ import discord
 from loguru import logger
 
 from router import Router
-from utils import get_arts, get_pics
 from services.redis import RedisClient
+from utils import get_arts, get_pics
 
 token = os.getenv("TOKEN")
 prefix = os.getenv("PREFIX", "!")
@@ -49,6 +49,14 @@ async def on_message(message: discord.Message):
 
     if message.author.bot:
         return
+
+    blocked_tags = ["everyone", "here"]
+    for tag in blocked_tags:
+        mention_tag = f"@{tag}"
+        if mention_tag in message.content:
+            message.content = message.content.replace(
+                mention_tag, f"<НЕ-ИСПОЛЬЗУЙ-{tag}-ПИДОР {message.author.mention}>"
+            )
 
     await redis.cache_member(message)
 

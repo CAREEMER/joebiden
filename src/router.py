@@ -1,8 +1,7 @@
 import discord
-
-from commands import BaseCommand
 from loguru import logger
 
+from commands import BaseCommand
 from services.redis import RedisClient
 
 

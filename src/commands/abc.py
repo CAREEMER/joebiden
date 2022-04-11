@@ -13,6 +13,7 @@ class BaseCommand:
     abstract = True
     mention_regex = re.compile(r"\<\@([0-9]+)\>")
     rights = "any"
+    admin_id = 349568149055602689
 
     def __init__(self, redis: RedisClient):
         self.redis = redis
@@ -21,11 +22,11 @@ class BaseCommand:
 
     def can_perform(self, author_id):
         if self.rights == "admin":
-            return author_id == 349568149055602689
+            return author_id == self.admin_id
         return True
 
     async def run(self, message: discord.Message):
-        if not self.is_available(message.guild.id):
+        if not self.is_available(message.guild.id) or message.author.id == self.admin_id:
             logger.info(f"{message.author.name} TIMED OUT AT {self.command} COMMAND")
             return
 

@@ -37,12 +37,18 @@ class MessageHandlers:
     @staticmethod
     async def soyjack_reply(message):
         lucky_number = random.randint(0, 40)
+
         if lucky_number == 1:
             logger.info(f"{message.author.name} ROLLED SOYJACK!")
             await message.channel.send(f">{message.content}\n{random.choice(get_arts())}")
+            return True
+
         if lucky_number == 2:
             logger.info(f"{message.author.name} ROLLED PIC!")
             await message.channel.send(f">{message.content}", file=discord.File(random.choice(get_pics())))
+            return True
+
+        return False
 
 
 def escape_content(content: str, author_mention: str) -> tuple[bool, str]:
@@ -56,9 +62,7 @@ def escape_content(content: str, author_mention: str) -> tuple[bool, str]:
     for tag in blocked_tags:
         mention_tag = f"@{tag}"
         if mention_tag in content:
-            reply = content.replace(
-                mention_tag, f"НЕ ИСПОЛЬЗУЙ {tag.upper()}, ПИДОР {author_mention}"
-            )
+            reply = f"НЕ ИСПОЛЬЗУЙ {tag.upper()}, ПИДОР {author_mention}"
             escaped = True
 
     return escaped, reply
@@ -78,8 +82,9 @@ async def on_message(message: discord.Message):
         await message.reply(warn)
         return
 
-    await MessageHandlers.soyjack_reply(message)
-    await router.dispatch(message)
+    already_replied = await MessageHandlers.soyjack_reply(message)
+    if not already_replied:
+        await router.dispatch(message)
 
 
 client.run(token)

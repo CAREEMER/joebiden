@@ -1,7 +1,8 @@
 import os
+from typing import List
 
 
-def get_arts() -> list[str]:
+def get_arts() -> List[str]:
     arts_directory = os.path.join(os.getcwd(), "arts")
     arts = []
 
@@ -14,7 +15,7 @@ def get_arts() -> list[str]:
     return arts
 
 
-def get_pics() -> list[str]:
+def get_pics() -> List[str]:
     arts_directory = os.path.join(os.getcwd(), "arts")
     arts = []
 

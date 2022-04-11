@@ -6,18 +6,28 @@ from loguru import logger
 
 from router import Router
 from utils import get_arts, get_pics
+from services.redis import RedisClient
 
 token = os.getenv("TOKEN")
 prefix = os.getenv("PREFIX")
 
 
 client = discord.Client()
-router = Router(prefix)
+router: Router = None
+
+redis: RedisClient = None
 
 
 @client.event
 async def on_ready():
+    global redis, router
+
     logger.info(f"INITIALIZED BOT {client.user.name}")
+
+    redis = RedisClient(bot_name=client.user.name)
+    await redis.ping_redis()
+
+    router = Router(prefix, redis)
 
 
 class MessageHandlers:
@@ -34,8 +44,12 @@ class MessageHandlers:
 
 @client.event
 async def on_message(message: discord.Message):
+    global redis
+
     if message.author.bot:
         return
+
+    await redis.cache_member(message)
 
     await MessageHandlers.soyjack_reply(message)
     await router.dispatch(message)

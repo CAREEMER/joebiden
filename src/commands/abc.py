@@ -3,6 +3,9 @@ import re
 import discord
 from loguru import logger
 import time
+from typing import List
+
+from services.redis import RedisClient
 
 
 class BaseCommand:
@@ -11,7 +14,8 @@ class BaseCommand:
     mention_regex = re.compile(r"\<\@([0-9]+)\>")
     rights = "any"
 
-    def __init__(self):
+    def __init__(self, redis: RedisClient):
+        self.redis = redis
         self.command = self.__class__.__name__.lower()
         self.last_calls = {}
 
@@ -34,14 +38,14 @@ class BaseCommand:
 
         self.last_calls[message.guild.id] = time.time()
 
-    def get_args(self, message: discord.Message) -> list[str]:
+    def get_args(self, message: discord.Message) -> List[str]:
         """
         Retrieves args from the message:
         "!ping arg1 arg2 arg3" -> ["arg1", "arg2", "arg3"]
         """
         return message.content.split(" ")[1:]
 
-    def get_id_from_mention(self, arg: str) -> list[str]:
+    def get_id_from_mention(self, arg: str) -> List[str]:
         return self.mention_regex.findall(arg)
 
     async def process(self, message: discord.Message):

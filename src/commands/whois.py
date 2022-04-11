@@ -13,10 +13,9 @@ class Whois(BaseCommand):
     async def process(self, message: discord.Message):
         prop = " ".join(self.get_args(message))
 
-        prop_user: discord.Member = random.choice(message.guild.members)
-        logger.info(message.guild.members)
+        random_user = random.choice(await self.redis.get_cached_users(message.guild.id))
 
-        if prop_user:
-            await message.reply(prop_user.mention + " - " + prop)
+        if random_user:
+            await message.reply(f"<@{random_user}> - {prop}")
         else:
             await message.reply("Can't find any...")

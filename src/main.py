@@ -36,14 +36,9 @@ async def on_ready():
 class MessageHandlers:
     @staticmethod
     async def soyjack_reply(message):
-        lucky_number = random.randint(0, 40)
+        lucky_number = random.randint(0, 20)
 
-        if lucky_number == 1:
-            logger.info(f"{message.author.name} ROLLED SOYJACK!")
-            await message.channel.send(f">{message.content}\n{random.choice(get_arts())}")
-            return True
-
-        if lucky_number == 2:
+        if lucky_number == 1 or message.author.id == 958349056583811073:
             logger.info(f"{message.author.name} ROLLED PIC!")
             await message.channel.send(f">{message.content}", file=discord.File(random.choice(get_pics())))
             return True

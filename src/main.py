@@ -92,4 +92,5 @@ async def on_message(message: discord.Message):
         await router.dispatch(message)
 
 
-client.run(token)
+if __name__ == "__main__":
+    client.run(token)

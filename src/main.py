@@ -1,5 +1,6 @@
 import os
 import random
+import datetime
 
 import discord
 from loguru import logger
@@ -10,7 +11,7 @@ from utils import get_arts, get_pics
 
 token = os.getenv("TOKEN")
 prefix = os.getenv("PREFIX", "!")
-redis_url = os.getenv("REDIS_URL", "redis://redis:6379")
+redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
 
 intents = discord.Intents.default()
 intents.members = True
@@ -19,6 +20,31 @@ client = discord.Client(intents=intents)
 router: Router = None
 
 redis: RedisClient = None
+
+
+garv_timeout_c: datetime.datetime = None
+art_timeoit_c: datetime.datetime = None
+
+
+def update_timeout(is_garv: bool = True):
+    global garv_timeout_c, art_timeoit_c
+
+    if is_garv:
+        garv_timeout_c = datetime.datetime.now()
+
+    else:
+        art_timeoit_c = datetime.datetime.now()
+
+
+def can_art(is_garv: bool = True):
+    if is_garv:
+        if not garv_timeout_c:
+            return True
+        return ((datetime.datetime.now() - datetime.timedelta(minutes=1)) > garv_timeout_c) and random.randint(0, 3) == 1
+
+    if not art_timeoit_c:
+        return True
+    return ((datetime.datetime.now() - datetime.timedelta(minutes=2)) > art_timeoit_c) and random.randint(0, 10) == 1
 
 
 @client.event
@@ -36,11 +62,18 @@ async def on_ready():
 class MessageHandlers:
     @staticmethod
     async def soyjack_reply(message):
+        if not message.content:
+            return
+
         # if garv
         if message.author.id == 949379472912707639:
-            lucky = random.randint(1, 3) == 2
+            lucky = can_art(is_garv=True)
+            if lucky:
+                update_timeout(is_garv=True)
         else:
-            lucky = random.randint(0, 20) == 1
+            lucky = can_art(is_garv=False)
+            if lucky:
+                update_timeout(is_garv=False)
 
         # if message.author.id in (301676192900317184, 315029938950635520):
         #     if 5 < lucky_number < 20:

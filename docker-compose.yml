@@ -4,6 +4,8 @@ services:
   redis:
     image: redislabs/redismod
     restart: on-failure
+    ports:
+      - 6379:6379
     healthcheck:
       test: redis-cli ping
       interval: 30s
@@ -11,5 +13,8 @@ services:
       retries: 3
 
   bot:
-    image: m2n2/joebiden
+    build: ./src
     restart: on-failure
+    environment:
+      - TOKEN=${JOEBIDEN}
+      - REDIS_URL=redis://redis:6379/

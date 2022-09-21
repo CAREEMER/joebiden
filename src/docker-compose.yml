@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  redis:
+    image: redislabs/redismod
+    restart: on-failure
+    healthcheck:
+      test: redis-cli ping
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  bot:
+    image: m2n2/joebiden
+    restart: on-failure

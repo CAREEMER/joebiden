@@ -10,7 +10,7 @@ from utils import get_arts, get_pics
 
 token = os.getenv("TOKEN")
 prefix = os.getenv("PREFIX", "!")
-redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
+redis_url = os.getenv("REDIS_URL", "redis://redis:6379")
 
 intents = discord.Intents.default()
 intents.members = True

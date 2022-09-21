@@ -38,7 +38,8 @@ class MessageHandlers:
     async def soyjack_reply(message):
         lucky_number = random.randint(0, 20)
 
-        if message.author.id in (301676192900317184, 315029938950635520):
+        # if garv
+        if message.author.id in (949379472912707639,):
             if 5 < lucky_number < 20:
                 logger.info(f"{message.author.name} ROLLED PIC!")
                 await message.channel.send("https://media.discordapp.net/attachments/913204760650334259/928569786156335124/crazy_cat_bubble.gif")

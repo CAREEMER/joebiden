@@ -24,23 +24,33 @@ redis: RedisClient = None
 
 garv_timeout_c: datetime.datetime = None
 art_timeoit_c: datetime.datetime = None
+bear_timeout_c: datetime.datetime = None
 
 
-def update_timeout(is_garv: bool = True):
-    global garv_timeout_c, art_timeoit_c
+def update_timeout(is_garv: bool = True, is_bear: bool = False):
+    global garv_timeout_c, art_timeoit_c, bear_timeout_c
 
     if is_garv:
         garv_timeout_c = datetime.datetime.now()
+
+    if is_bear:
+        bear_timeout_c = datetime.datetime.now()
 
     else:
         art_timeoit_c = datetime.datetime.now()
 
 
-def can_art(is_garv: bool = True):
+def can_art(is_garv: bool = True, is_bear: bool = False):
     if is_garv:
         if not garv_timeout_c:
             return True
         return ((datetime.datetime.now() - datetime.timedelta(minutes=1)) > garv_timeout_c) and random.randint(0, 3) == 1
+
+    if is_bear:
+        if not bear_timeout_c:
+            return True
+
+        return ((datetime.datetime.now() - datetime.timedelta(minutes=1)) > bear_timeout_c) and random.randint(0, 2) == 1
 
     if not art_timeoit_c:
         return True
@@ -70,6 +80,13 @@ class MessageHandlers:
             lucky = can_art(is_garv=True)
             if lucky:
                 update_timeout(is_garv=True)
+        elif message.author.id == 301676192900317184:
+            if can_art(is_garv=False, is_bear=True):
+                update_timeout(is_garv=False, is_bear=True)
+                await message.reply("https://media.discordapp.net/attachments/679961199059927051/1022429235190698034/bruh.jpg")
+                return True
+
+            lucky = False
         else:
             lucky = can_art(is_garv=False)
             if lucky:
